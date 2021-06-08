@@ -27,6 +27,10 @@ app.get("/", (req, res) => {
 
 require("./routes/users.routes.js")(app);
 require("./routes/positions.routes.js")(app);
+require("./routes/clients.routes.js")(app);
+require("./routes/projects.routes.js")(app);
+require("./routes/tasks.routes.js")(app);
+require("./routes/hours.routes.js")(app);
 
 
 // set port, listen for requests

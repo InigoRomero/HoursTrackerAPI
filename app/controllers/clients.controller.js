@@ -1,130 +1,129 @@
 const db = require("../models");
-const User = db.users;
+const Client = db.clients;
 const Op = db.Sequelize.Op;
 
-// Create and Save a new User
+// Create and Save a new Client
 exports.create = (req, res) => {
     // Validate request
-    if (!req.body.email || !req.body.name || !req.body.positionId) {
+    if (!req.body.name) {
       res.status(400).send({
         message: "Content can not be empty!"
       });
       return;
     }
   
-    // Create a User
-    const user = {
-      email: req.body.email,
-      name: req.body.name,
-      positionId: req.body.positionId
+    // Create a Client
+    const client = {
+        name: req.body.name
     };
   
-    // Save User in the database
-    User.create(user)
+    // Save Client in the database
+    Client.create(client)
       .then(data => {
         res.send(data);
       })
       .catch(err => {
         res.status(500).send({
           message:
-            err.message || "Some error occurred while creating the User."
+            err.message || "Some error occurred while creating the Client."
         });
       });
   };
   
-  // Retrieve all Users from the database.
+  // Retrieve all Clients from the database.
   exports.findAll = (req, res) => {
     const name = req.query.name;
     var condition = name ? { name: { [Op.like]: `%${name}%` } } : null;
   
-    User.findAll({ where: condition })
+    Client.findAll({ where: condition })
       .then(data => {
         res.send(data);
       })
       .catch(err => {
         res.status(500).send({
           message:
-            err.message || "Some error occurred while retrieving Users."
+            err.message || "Some error occurred while retrieving Clients."
         });
       });
   };
   
-  // Find a single User with an id
+  // Find a single Client with an id
   exports.findOne = (req, res) => {
     const id = req.params.id;
   
-    User.findByPk(id)
+    Client.findByPk(id)
       .then(data => {
         res.send(data);
       })
       .catch(err => {
         res.status(500).send({
-          message: "Error retrieving User with id=" + id
+          message: "Error retrieving Client with id=" + id
         });
       });
   };
   
-  // Update a User by the id in the request
+  // Update a Client by the id in the request
   exports.update = (req, res) => {
-    const id = req.body.idUser;
-    User.update(req.body, {
+    const id = req.body.idClient;
+    Client.update(req.body, {
       where: { id: id }
     })
       .then(num => {
         if (num == 1) {
           res.send({
-            message: "User was updated successfully."
+            message: "Client was updated successfully."
           });
         } else {
           res.send({
-            message: `Cannot update User with id=${id}. Maybe User was not found or req.body is empty!`
+            message: `Cannot update Client with id=${id}. Maybe Client was not found or req.body is empty!`
           });
         }
       })
       .catch(err => {
         res.status(500).send({
-          message: "Error updating User with id=" + id
+          message: "Error updating Client with id=" + id
         });
       });
   };
   
-  // Delete a User with the specified id in the request
+  // Delete a Client with the specified id in the request
   exports.delete = (req, res) => {
     const id = req.params.id;
-    User.destroy({
+    Client.destroy({
       where: { id: id }
     })
       .then(num => {
         if (num == 1) {
           res.send({
-            message: "User was deleted successfully!"
+            message: "Client was deleted successfully!"
           });
         } else {
           res.send({
-            message: `Cannot delete User with id=${id}. Maybe User was not found!`
+            message: `Cannot delete Client with id=${id}. Maybe Client was not found!`
           });
         }
       })
       .catch(err => {
+        console.log(err);
         res.status(500).send({
-          message: "Could not delete User with id=" + id
+          message: "Could not delete Client with id=" + id
         });
       });
   };
   
-  // Delete all Users from the database.
+  // Delete all Clients from the database.
   exports.deleteAll = (req, res) => {
-    User.destroy({
+    Client.destroy({
       where: {},
       truncate: false
     })
       .then(nums => {
-        res.send({ message: `${nums} Users were deleted successfully!` });
+        res.send({ message: `${nums} Clients were deleted successfully!` });
       })
       .catch(err => {
         res.status(500).send({
           message:
-            err.message || "Some error occurred while removing all Users."
+            err.message || "Some error occurred while removing all Clients."
         });
       });
   };

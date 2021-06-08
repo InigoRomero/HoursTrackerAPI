@@ -1,130 +1,131 @@
 const db = require("../models");
-const User = db.users;
+const Project = db.projects;
 const Op = db.Sequelize.Op;
 
-// Create and Save a new User
+// Create and Save a new Project
 exports.create = (req, res) => {
     // Validate request
-    if (!req.body.email || !req.body.name || !req.body.positionId) {
+    if (!req.body.name || !req.body.description || !req.body.clientID || !req.body.budget) {
       res.status(400).send({
         message: "Content can not be empty!"
       });
       return;
     }
   
-    // Create a User
-    const user = {
-      email: req.body.email,
-      name: req.body.name,
-      positionId: req.body.positionId
+    // Create a Project
+    const project = {
+        name: req.body.name,
+        description: req.body.description,
+        budget: req.body.budget,
+        clientId: req.body.clientID
     };
   
-    // Save User in the database
-    User.create(user)
+    // Save Project in the database
+    Project.create(project)
       .then(data => {
         res.send(data);
       })
       .catch(err => {
         res.status(500).send({
           message:
-            err.message || "Some error occurred while creating the User."
+            err.message || "Some error occurred while creating the Project."
         });
       });
   };
   
-  // Retrieve all Users from the database.
+  // Retrieve all Projects from the database.
   exports.findAll = (req, res) => {
     const name = req.query.name;
     var condition = name ? { name: { [Op.like]: `%${name}%` } } : null;
   
-    User.findAll({ where: condition })
+    Project.findAll({ where: condition })
       .then(data => {
         res.send(data);
       })
       .catch(err => {
         res.status(500).send({
           message:
-            err.message || "Some error occurred while retrieving Users."
+            err.message || "Some error occurred while retrieving Projects."
         });
       });
   };
   
-  // Find a single User with an id
+  // Find a single Project with an id
   exports.findOne = (req, res) => {
     const id = req.params.id;
   
-    User.findByPk(id)
+    Project.findByPk(id)
       .then(data => {
         res.send(data);
       })
       .catch(err => {
         res.status(500).send({
-          message: "Error retrieving User with id=" + id
+          message: "Error retrieving Project with id=" + id
         });
       });
   };
   
-  // Update a User by the id in the request
+  // Update a Project by the id in the request
   exports.update = (req, res) => {
-    const id = req.body.idUser;
-    User.update(req.body, {
+    const id = req.body.idProject;
+    Project.update(req.body, {
       where: { id: id }
     })
       .then(num => {
         if (num == 1) {
           res.send({
-            message: "User was updated successfully."
+            message: "Project was updated successfully."
           });
         } else {
           res.send({
-            message: `Cannot update User with id=${id}. Maybe User was not found or req.body is empty!`
+            message: `Cannot update Project with id=${id}. Maybe Project was not found or req.body is empty!`
           });
         }
       })
       .catch(err => {
         res.status(500).send({
-          message: "Error updating User with id=" + id
+          message: "Error updating Project with id=" + id
         });
       });
   };
   
-  // Delete a User with the specified id in the request
+  // Delete a Project with the specified id in the request
   exports.delete = (req, res) => {
     const id = req.params.id;
-    User.destroy({
+    Project.destroy({
       where: { id: id }
     })
       .then(num => {
         if (num == 1) {
           res.send({
-            message: "User was deleted successfully!"
+            message: "Project was deleted successfully!"
           });
         } else {
           res.send({
-            message: `Cannot delete User with id=${id}. Maybe User was not found!`
+            message: `Cannot delete Project with id=${id}. Maybe Project was not found!`
           });
         }
       })
       .catch(err => {
         res.status(500).send({
-          message: "Could not delete User with id=" + id
+          message: "Could not delete Project with id=" + id
         });
       });
   };
   
-  // Delete all Users from the database.
+  // Delete all Projects from the database.
   exports.deleteAll = (req, res) => {
-    User.destroy({
+    Project.destroy({
       where: {},
       truncate: false
     })
       .then(nums => {
-        res.send({ message: `${nums} Users were deleted successfully!` });
+        res.send({ message: `${nums} Projects were deleted successfully!` });
       })
       .catch(err => {
         res.status(500).send({
           message:
-            err.message || "Some error occurred while removing all Users."
+            err.message || "Some error occurred while removing all Projects."
         });
       });
   };

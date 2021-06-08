@@ -26,7 +26,7 @@ db.users = require("./users.model.js")(sequelize, Sequelize);
 db.positions = require("./positions.model.js")(sequelize, Sequelize);
 db.projects = require("./projects.model.js")(sequelize, Sequelize);
 db.tasks = require("./tasks.model.js")(sequelize, Sequelize);
-db.client = require("./client.model.js")(sequelize, Sequelize);
+db.clients = require("./clients.model.js")(sequelize, Sequelize);
 db.hours = require("./hours.model.js")(sequelize, Sequelize);
 // make relations
 // users with position
@@ -38,9 +38,14 @@ db.users.belongsToMany(db.projects, { through: 'UsersOnProject' });
 // users with taks
 db.tasks.belongsToMany(db.users, { through: 'UsersOnTask' });
 db.users.belongsToMany(db.tasks, { through: 'UsersOnTask' });
-// projects with clients
-db.projects.belongsTo(db.client);
-db.client.hasMany(db.projects);
+//task with creator and project
+db.tasks.belongsTo(db.projects);
+db.projects.hasMany(db.tasks);
+db.tasks.belongsTo(db.users);
+db.users.hasMany(db.tasks);
+// projects with clientss
+db.projects.belongsTo(db.clients);
+db.clients.hasMany(db.projects);
 //Hours with user + Project + Task
 db.hours.belongsTo(db.users);
 db.hours.belongsTo(db.projects);

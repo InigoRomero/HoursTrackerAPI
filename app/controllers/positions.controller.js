@@ -91,7 +91,7 @@ exports.create = (req, res) => {
   exports.delete = (req, res) => {
     const id = req.params.id;
     Position.destroy({
-      where: { idPosition: id }
+      where: { id: id }
     })
       .then(num => {
         if (num == 1) {
