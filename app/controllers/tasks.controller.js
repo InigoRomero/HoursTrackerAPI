@@ -54,8 +54,9 @@ exports.create = (req, res) => {
   // Find a single Task with an id
   exports.findOne = (req, res) => {
     const id = req.params.id;
-  
-    Task.findByPk(id)
+    Task.scope('includeMain').findByPk(id , {
+      exclude: ['projectId', 'deletedAT']
+    })
       .then(data => {
         res.send(data);
       })

@@ -3,17 +3,23 @@ module.exports = function (db) {
    
     const scope = { 
       include: [{
-        model: db.clients, // *** CLIENT ***
+        model: db.projects, // *** PROJECTS ***
         attributes: {
-          exclude: ['deletedAT', 'updatedAt', 'createdAt']
-        }
+          exclude: ['deletedAT', 'updatedAt', 'createdAt', 'clientId']
+        },
+        include: [{
+            model: db.clients,
+            attributes: {
+              exclude: ['deletedAT', 'updatedAt', 'createdAt']
+            }
+          }]
       },
       {
-        model: db.users, // *** PROJECTS PARTICIPANT ***
+        model: db.users, // *** TASK PARTICIPANT ***
         attributes: {
           exclude: ['deletedAT', 'updatedAt', 'createdAt', 'PositionId', 'positionId']
         },
-        as: "participantsProject",
+        as: "participantsTask",
         through: {attributes: []},
         include: [{
           model: db.positions,
@@ -30,12 +36,6 @@ module.exports = function (db) {
           },
         }]
       },
-      {
-        model: db.tasks, // *** TASKS ***
-        attributes: {
-          exclude: ['deletedAT', 'updatedAt', 'createdAt']
-        }
-      }
     ]
     };
     return scope;

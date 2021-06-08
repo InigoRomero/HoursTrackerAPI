@@ -63,5 +63,7 @@ const userScop = require("../db/users.scope.js")(db);
 db.users.addScope('includeMain', userScop);
 const projectScop = require("../db/projects.scope.js")(db);
 db.projects.addScope('includeMain', projectScop);
+const taskScop = require("../db/tasks.scope.js")(db);
+db.tasks.addScope('includeMain', taskScop);
 
 module.exports = db;
