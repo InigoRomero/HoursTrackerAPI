@@ -129,3 +129,30 @@ exports.create = (req, res) => {
         });
       });
   };
+
+  // Create and Save a new user to a Project
+exports.addUser = (req, res) => {
+  // Validate request
+  if (!req.body.projectId || !req.body.userId) {
+    res.status(400).send({
+      message: "Content can not be empty!"
+    });
+    return;
+  }
+  // Create a Project
+  const participant = {
+      projectId: req.body.projectId,
+      userId: req.body.userId
+  };
+  // Save Project in the database
+  db.usersOnProjects.create(participant)
+  .then(data => {
+    res.send(data);
+  })
+  .catch(err => {
+    res.status(500).send({
+      message:
+        err.message || "Some error occurred while creating the Project."
+    });
+  });
+};

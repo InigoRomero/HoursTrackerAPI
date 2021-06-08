@@ -28,16 +28,20 @@ db.projects = require("./projects.model.js")(sequelize, Sequelize);
 db.tasks = require("./tasks.model.js")(sequelize, Sequelize);
 db.clients = require("./clients.model.js")(sequelize, Sequelize);
 db.hours = require("./hours.model.js")(sequelize, Sequelize);
-// make relations
+db.usersOnProjects = require("../models/usersOnProject.model.js")(sequelize, Sequelize);
+db.usersOnTasks = require("./usersOnTasks.model.js")(sequelize, Sequelize);
+
+// ***** RELATIONS *****
+
 // users with position
 db.users.belongsTo(db.positions, {as: 'Position'});
 db.positions.hasMany(db.users);
 // users with project
-db.projects.belongsToMany(db.users, { through: 'UsersOnProject', as: 'participants'});
-db.users.belongsToMany(db.projects, { through: 'UsersOnProject', as: 'participantProject'});
+db.projects.belongsToMany(db.users, { through: 'UsersOnProjects', as: 'participantsProject'});
+db.users.belongsToMany(db.projects, { through: 'UsersOnProjects', as: 'participantProject'});
 // users with taks
-db.tasks.belongsToMany(db.users, { through: 'UsersOnTask', as: "participants"});
-db.users.belongsToMany(db.tasks, { through: 'UsersOnTask', as: "participantTask"});
+db.tasks.belongsToMany(db.users, { through: 'UsersOnTasks', as: "participantsTask"});
+db.users.belongsToMany(db.tasks, { through: 'UsersOnTasks', as: "participantTask"});
 //task with creator and project
 db.tasks.belongsTo(db.projects);
 db.projects.hasMany(db.tasks);
@@ -54,7 +58,8 @@ db.users.hasMany(db.hours);
 db.projects.hasMany(db.hours);
 db.tasks.hasMany(db.hours);
 
-//add scopes
+// ****** SCOPES *******
+
 db.users.addScope('includeMain', {
   include: [{
     model: db.positions, // *** POSITIONS ***
@@ -101,6 +106,7 @@ db.users.addScope('includeMain', {
       exclude: ['deletedAT', 'updatedAt', 'createdAt']
     },
     as: "participantTask",
+    through: {attributes: []},
   },
   {
     model: db.projects, // *** PROJECTS PARTICIPANT ***
@@ -108,6 +114,7 @@ db.users.addScope('includeMain', {
       exclude: ['deletedAT', 'updatedAt', 'createdAt', 'clientId']
     },
     as: "participantProject",
+    through: {attributes: []},
     include: [{
       model: db.clients,
       attributes: {

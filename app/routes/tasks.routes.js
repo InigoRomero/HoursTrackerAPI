@@ -20,6 +20,9 @@ module.exports = app => {
   
     // Delete all tasks
     router.delete("/", tasks.deleteAll);
+
+    // add new participant to the task
+    router.post("/addUser", tasks.addUser);
   
     app.use('/api/tasks', router);
   };

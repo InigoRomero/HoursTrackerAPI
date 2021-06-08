@@ -3,7 +3,7 @@ module.exports = app => {
   
     var router = require("express").Router();
   
-    // Create a new Tutorial
+    // Create a new project
     router.post("/", projects.create);
   
     // Retrieve all projects
@@ -20,6 +20,9 @@ module.exports = app => {
   
     // Delete all projects
     router.delete("/", projects.deleteAll);
+
+    // add new participant to the project
+    router.post("/addUser", projects.addUser);
   
     app.use('/api/projects', router);
   };
