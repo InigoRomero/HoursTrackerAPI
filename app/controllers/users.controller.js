@@ -1,3 +1,4 @@
+const { hours } = require("../models");
 const db = require("../models");
 const User = db.users;
 const Op = db.Sequelize.Op;
@@ -37,7 +38,9 @@ exports.create = (req, res) => {
     const name = req.query.name;
     var condition = name ? { name: { [Op.like]: `%${name}%` } } : null;
   
-    User.findAll({ where: condition })
+    User.findAll({attributes: {
+      exclude: ['deletedAT', 'PositionId']
+    }, where : condition})
       .then(data => {
         res.send(data);
       })
@@ -53,7 +56,9 @@ exports.create = (req, res) => {
   exports.findOne = (req, res) => {
     const id = req.params.id;
   
-    User.findByPk(id)
+    User.scope('includeMain').findByPk(id, {attributes: {
+      exclude: ['PositionId', 'positionId', 'deletedAT']
+    }})
       .then(data => {
         res.send(data);
       })

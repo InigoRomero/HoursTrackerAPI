@@ -30,19 +30,19 @@ db.clients = require("./clients.model.js")(sequelize, Sequelize);
 db.hours = require("./hours.model.js")(sequelize, Sequelize);
 // make relations
 // users with position
-db.users.belongsTo(db.positions);
+db.users.belongsTo(db.positions, {as: 'Position'});
 db.positions.hasMany(db.users);
 // users with project
-db.projects.belongsToMany(db.users, { through: 'UsersOnProject' });
-db.users.belongsToMany(db.projects, { through: 'UsersOnProject' });
+db.projects.belongsToMany(db.users, { through: 'UsersOnProject', as: 'participants'});
+db.users.belongsToMany(db.projects, { through: 'UsersOnProject', as: 'participantProject'});
 // users with taks
-db.tasks.belongsToMany(db.users, { through: 'UsersOnTask' });
-db.users.belongsToMany(db.tasks, { through: 'UsersOnTask' });
+db.tasks.belongsToMany(db.users, { through: 'UsersOnTask', as: "participants"});
+db.users.belongsToMany(db.tasks, { through: 'UsersOnTask', as: "participantTask"});
 //task with creator and project
 db.tasks.belongsTo(db.projects);
 db.projects.hasMany(db.tasks);
 db.tasks.belongsTo(db.users);
-db.users.hasMany(db.tasks);
+db.users.hasMany(db.tasks, {as: 'taskCreator'});
 // projects with clientss
 db.projects.belongsTo(db.clients);
 db.clients.hasMany(db.projects);
@@ -53,5 +53,69 @@ db.hours.belongsTo(db.tasks);
 db.users.hasMany(db.hours);
 db.projects.hasMany(db.hours);
 db.tasks.hasMany(db.hours);
+
+//add scopes
+db.users.addScope('includeMain', {
+  include: [{
+    model: db.positions, // *** POSITIONS ***
+    attributes: {
+      exclude: ['deletedAT', 'updatedAt', 'createdAt', 'PositionId']
+    },
+    as: "Position"
+  },
+  {
+    model: db.hours, // *** HOURS ***
+    attributes: {
+      exclude: ['deletedAT', 'updatedAt', 'createdAt', 'userId', 'projectId']
+    },
+    include: [{
+      model: db.projects,
+      attributes: {
+        exclude: ['deletedAT', 'updatedAt', 'createdAt', 'clientId']
+      },
+      include: [{
+        model: db.clients,
+        attributes: {
+          exclude: ['deletedAT', 'updatedAt', 'createdAt']
+        },
+        required: true
+      }]
+    }],
+    include: [{
+      model: db.tasks,
+      attributes: {
+        exclude: ['deletedAT', 'updatedAt', 'createdAt', 'userId']
+      }
+    }]
+  },
+  {
+    model: db.tasks, // *** TASKS CREATOR ***
+    attributes: {
+      exclude: ['deletedAT', 'updatedAt', 'createdAt']
+    },
+    as: "taskCreator",
+  },
+  {
+    model: db.tasks, // *** TASKS PARTICIPANT ***
+    attributes: {
+      exclude: ['deletedAT', 'updatedAt', 'createdAt']
+    },
+    as: "participantTask",
+  },
+  {
+    model: db.projects, // *** PROJECTS PARTICIPANT ***
+    attributes: {
+      exclude: ['deletedAT', 'updatedAt', 'createdAt', 'clientId']
+    },
+    as: "participantProject",
+    include: [{
+      model: db.clients,
+      attributes: {
+        exclude: ['deletedAT', 'updatedAt', 'createdAt']
+      },
+      required: true
+    }]
+  }
+  ]});
 
 module.exports = db;
