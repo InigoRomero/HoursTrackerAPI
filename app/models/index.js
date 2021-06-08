@@ -1,4 +1,4 @@
-const dbConfig = require("../config/db.config.js");
+const dbConfig = require("../db/db.config.js");
 const mysql = require('mysql2/promise');
 const Sequelize = require("sequelize");
 
@@ -59,70 +59,9 @@ db.projects.hasMany(db.hours);
 db.tasks.hasMany(db.hours);
 
 // ****** SCOPES *******
-
-db.users.addScope('includeMain', {
-  include: [{
-    model: db.positions, // *** POSITIONS ***
-    attributes: {
-      exclude: ['deletedAT', 'updatedAt', 'createdAt', 'PositionId']
-    },
-    as: "Position"
-  },
-  {
-    model: db.hours, // *** HOURS ***
-    attributes: {
-      exclude: ['deletedAT', 'updatedAt', 'createdAt', 'userId', 'projectId']
-    },
-    include: [{
-      model: db.projects,
-      attributes: {
-        exclude: ['deletedAT', 'updatedAt', 'createdAt', 'clientId']
-      },
-      include: [{
-        model: db.clients,
-        attributes: {
-          exclude: ['deletedAT', 'updatedAt', 'createdAt']
-        },
-        required: true
-      }]
-    }],
-    include: [{
-      model: db.tasks,
-      attributes: {
-        exclude: ['deletedAT', 'updatedAt', 'createdAt', 'userId']
-      }
-    }]
-  },
-  {
-    model: db.tasks, // *** TASKS CREATOR ***
-    attributes: {
-      exclude: ['deletedAT', 'updatedAt', 'createdAt']
-    },
-    as: "taskCreator",
-  },
-  {
-    model: db.tasks, // *** TASKS PARTICIPANT ***
-    attributes: {
-      exclude: ['deletedAT', 'updatedAt', 'createdAt']
-    },
-    as: "participantTask",
-    through: {attributes: []},
-  },
-  {
-    model: db.projects, // *** PROJECTS PARTICIPANT ***
-    attributes: {
-      exclude: ['deletedAT', 'updatedAt', 'createdAt', 'clientId']
-    },
-    as: "participantProject",
-    through: {attributes: []},
-    include: [{
-      model: db.clients,
-      attributes: {
-        exclude: ['deletedAT', 'updatedAt', 'createdAt']
-      },
-      required: true
-    }]
-  }
-  ]});
+const userScop = require("../db/users.scope.js")(db);
+db.users.addScope('includeMain', userScop);
+const projectScop = require("../db/projects.scope.js")(db);
+db.projects.addScope('includeMain', projectScop);
 
 module.exports = db;

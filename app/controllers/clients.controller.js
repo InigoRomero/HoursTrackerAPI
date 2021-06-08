@@ -104,7 +104,6 @@ exports.create = (req, res) => {
         }
       })
       .catch(err => {
-        console.log(err);
         res.status(500).send({
           message: "Could not delete Client with id=" + id
         });

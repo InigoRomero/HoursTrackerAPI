@@ -12,3 +12,7 @@ Dokerized NodeJS app with MySQL Database
 		Access <code>localhost:3000</code> in your browser and empty json will be shown
 	</li>
 </ol>
+ 
+ - kick user from project or task
+ - create data without ID posibility, searching in back
+ - accept multiple records
