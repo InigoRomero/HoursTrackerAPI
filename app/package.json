@@ -1,18 +1,20 @@
 {
-	"name": "node-mysql-app",
+	"name": "hourstrackerapi",
 	"version": "1.0.0",
 	"description": "",
 	"main": "index.js",
 	"scripts": {
 		"start": "nodemon index.js",
-		"test": "echo \"Error: no test specified\" && exit 1"
+		"test": "jest"
 	},
 	"keywords": [
 		"docker",
 		"mysql",
-		"nodejs"
+		"nodejs",
+		"sequelize",
+		"hours-tracker"
 	],
-	"author": "FrasNym",
+	"author": "InigoRomero",
 	"license": "ISC",
 	"dependencies": {
 		"cors": "2.8.5",
@@ -22,5 +24,9 @@
 		"nodemon": "^2.0.7",
 		"path": "0.12.7",
 		"sequelize": "^6.6.2"
+	},
+	"devDependencies": {
+		"jest": "^27.0.4",
+		"nock": "^13.1.0"
 	}
 }
