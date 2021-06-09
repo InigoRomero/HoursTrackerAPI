@@ -5,7 +5,6 @@ const Sequelize = require("sequelize");
 //initialize();
 
 const db = {};
-
 //inizializate Sequelize
 const sequelize = new Sequelize(dbConfig.DB, dbConfig.USER, dbConfig.PASSWORD, {
   host: dbConfig.HOST,
@@ -34,7 +33,7 @@ db.usersOnTasks = require("./usersOnTasks.model.js")(sequelize, Sequelize);
 // ***** RELATIONS *****
 
 // users with position
-db.users.belongsTo(db.positions, {as: 'Position'});
+db.users.belongsTo(db.positions, {foreignKey: 'positionId', as: 'Position'});
 db.positions.hasMany(db.users);
 // users with project
 db.projects.belongsToMany(db.users, { through: 'UsersOnProjects', as: 'participantsProject'});
@@ -49,7 +48,7 @@ db.tasks.belongsTo(db.users);
 db.users.hasMany(db.tasks, {as: 'taskCreator'});
 // projects with clientss
 db.projects.belongsTo(db.clients);
-db.clients.hasMany(db.projects);
+//db.clients.hasMany(db.projects);
 //Hours with user + Project + Task
 db.hours.belongsTo(db.users);
 db.hours.belongsTo(db.projects);

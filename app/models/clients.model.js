@@ -1,5 +1,7 @@
 
 module.exports = (sequelize, Sequelize) => {
+    const projects = require("./projects.model.js")(sequelize, Sequelize);
+
     const Clients = sequelize.define("clients", {
         id: {
             type: Sequelize.INTEGER,
@@ -22,5 +24,6 @@ module.exports = (sequelize, Sequelize) => {
         },
         deletedAT: Sequelize.DATE
         });
+    Clients.hasMany(projects);
     return Clients;
   };
