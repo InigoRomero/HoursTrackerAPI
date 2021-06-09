@@ -7,12 +7,7 @@ docker-compose up -d
 node ./app/index.js
 ```
 The server should be launched on localhost:3000
-## To Do
- - Make tester with Mocha
- - kick user from project or task
- - create data without ID posibility, searching in back
- - accept bulk uploads
- - add JWT auth
+
 ## BD Diagram
 ![alt text](https://github.com/InigoRomero/HoursTrackerAPI/blob/main/utils/Untitled%20Diagram.png)
 ## technologies
@@ -212,3 +207,9 @@ Some example of the applications calls
     ]
 }
 ```
+## To Do
+ - Make tester with Mocha
+ - kick user from project or task
+ - create data without ID posibility, searching in back
+ - accept bulk uploads
+ - add JWT auth

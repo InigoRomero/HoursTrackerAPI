@@ -132,7 +132,7 @@ exports.create = (req, res) => {
       });
   };
 
-  // Create and Save a new user to a Project
+// Create and Save a new user to a Project
 exports.addUser = (req, res) => {
   // Validate request
   if (!req.body.projectId || !req.body.userId) {
@@ -157,4 +157,44 @@ exports.addUser = (req, res) => {
         err.message || "Some error occurred while creating the Project."
     });
   });
+};
+
+exports.kickUser = (req, res) => {
+  const id = req.params.id;
+  db.usersOnProjects.destroy({
+      where: { id: id }
+    })
+      .then(num => {
+        if (num == 1) {
+          res.send({
+            message: "user was kicked from project successfully!"
+          });
+        } else {
+          res.send({
+            message: `Cannot delete Project with id=${id}. Maybe Project was not found!`
+          });
+        }
+      })
+      .catch(err => {
+        res.status(500).send({
+          message: "Could not delete Project with id=" + id
+        });
+      });
+};
+
+// Retrieve all Projects from the database.
+exports.usersOnProject = (req, res) => {
+  const name = req.query.name;
+  var condition = name ? { name: { [Op.like]: `%${name}%` } } : null;
+
+  db.usersOnProjects.findAll({ where: condition })
+    .then(data => {
+      res.send(data);
+    })
+    .catch(err => {
+      res.status(500).send({
+        message:
+          err.message || "Some error occurred while retrieving Projects."
+      });
+    });
 };

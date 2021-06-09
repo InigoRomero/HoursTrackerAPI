@@ -46,7 +46,6 @@ module.exports = function (db) {
           exclude: ['deletedAT', 'updatedAt', 'createdAt']
         },
         as: "participantTask",
-        through: {attributes: []},
       },
       {
         model: db.projects, // *** PROJECTS PARTICIPANT ***
@@ -54,7 +53,6 @@ module.exports = function (db) {
           exclude: ['deletedAT', 'updatedAt', 'createdAt', 'clientId']
         },
         as: "participantProject",
-        through: {attributes: []},
         include: [{
           model: db.clients,
           attributes: {
