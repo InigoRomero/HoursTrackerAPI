@@ -42,6 +42,7 @@ exports.create = (req, res) => {
       exclude: ['deletedAT', 'PositionId']
     }, where : condition})
       .then(data => {
+        console.log("Hola test");
         res.send(data);
       })
       .catch(err => {

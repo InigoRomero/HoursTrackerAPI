@@ -20,10 +20,6 @@ var corsOptions = {
 
 const db = require("./models");
 db.sequelize.sync();
-// simple route
-app.get("/", (req, res) => {
-  res.json({ message: "Welcome to application" });
-});
 
 require("./routes/users.routes.js")(app);
 require("./routes/positions.routes.js")(app);

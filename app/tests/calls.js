@@ -1,6 +1,6 @@
 //const req = require('./request');
 const http = require('http');
-
+const app = require('../index')
 async function req(url) {
   return new Promise(function(resolve, reject) {
     http.get(url, (res) =>{

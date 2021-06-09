@@ -214,6 +214,47 @@ Some example of the applications calls
     cd app
     npm run test
  ```
+ ### JEST TEST COVERAGE
+ ```shell
+--------------------------|---------|----------|---------|---------|------------------------------------------------------------
+File                      | % Stmts | % Branch | % Funcs | % Lines | Uncovered Line #s
+--------------------------|---------|----------|---------|---------|------------------------------------------------------------
+All files                 |   56.43 |     4.88 |   23.45 |   56.33 | 
+ app                      |     100 |      100 |     100 |     100 | 
+  index.js                |     100 |      100 |     100 |     100 | 
+ app/controllers          |   29.15 |     3.31 |    8.33 |   29.15 | 
+  clients.controller.js   |    22.5 |        0 |       0 |    22.5 | 8-26,35-43,52-59,67-83,91-107,115-123
+  hours.controller.js     |    32.5 |     5.26 |   11.11 |    32.5 | 8-30,47,56-63,71-87,95-111,119-127
+  positions.controller.js |    22.5 |        0 |       0 |    22.5 | 8-27,36-44,53-60,68-84,92-108,116-124
+  projects.controller.js  |   26.23 |     3.33 |    7.41 |   26.23 | 8-29,46,55-64,72-88,96-112,120-128,138-155,163-179,187-195
+  tasks.controller.js     |   29.17 |        4 |    9.52 |   29.17 | 8-30,47,56-64,72-88,96-112,120-128,138-155
+  users.controller.js     |   42.86 |     5.88 |   22.22 |   42.86 | 9-29,49,67,75-91,99-115,123-131
+ app/db                   |     100 |      100 |     100 |     100 | 
+  db.config.js            |     100 |      100 |     100 |     100 | 
+  projects.scope.js       |     100 |      100 |     100 |     100 | 
+  tasks.scope.js          |     100 |      100 |     100 |     100 | 
+  users.scope.js          |     100 |      100 |     100 |     100 | 
+ app/models               |     100 |      100 |     100 |     100 | 
+  clients.model.js        |     100 |      100 |     100 |     100 | 
+  hours.model.js          |     100 |      100 |     100 |     100 | 
+  index.js                |     100 |      100 |     100 |     100 | 
+  positions.model.js      |     100 |      100 |     100 |     100 | 
+  projects.model.js       |     100 |      100 |     100 |     100 | 
+  tasks.model.js          |     100 |      100 |     100 |     100 | 
+  users.model.js          |     100 |      100 |     100 |     100 | 
+  usersOnProject.model.js |     100 |      100 |     100 |     100 | 
+  usersOnTasks.model.js   |     100 |      100 |     100 |     100 | 
+ app/routes               |     100 |      100 |     100 |     100 | 
+  clients.routes.js       |     100 |      100 |     100 |     100 | 
+  hours.routes.js         |     100 |      100 |     100 |     100 | 
+  positions.routes.js     |     100 |      100 |     100 |     100 | 
+  projects.routes.js      |     100 |      100 |     100 |     100 | 
+  tasks.routes.js         |     100 |      100 |     100 |     100 | 
+  users.routes.js         |     100 |      100 |     100 |     100 | 
+ app/tests                |   91.67 |      100 |   85.71 |   90.91 | 
+  calls.js                |   91.67 |      100 |   85.71 |   90.91 | 14
+--------------------------|---------|----------|---------|---------|------------------------------------------------------------
+ ```
 ## To Do
  - create data without ID posibility, searching in back
  - accept bulk uploads
