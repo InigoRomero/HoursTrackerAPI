@@ -4,7 +4,9 @@
 ## Usage
 ```shell
 docker-compose up -d
-node ./app/index.js
+cd app
+npm install
+node index.js
 ```
 The server should be launched on localhost:3000
 
@@ -207,8 +209,12 @@ Some example of the applications calls
     ]
 }
 ```
+## TEST API WITH JEST
+ ```shel
+    cd app
+    npm run test
+ ```
 ## To Do
- - Make tester with Mocha
  - create data without ID posibility, searching in back
  - accept bulk uploads
  - add JWT auth
