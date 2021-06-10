@@ -33,8 +33,8 @@ exports.create = (req, res) => {
   
   // Retrieve all Positions from the database.
   exports.findAll = (req, res) => {
-    const tilte = req.query.tilte;
-    var condition = tilte ? { tilte: { [Op.like]: `%${tilte}%` } } : null;
+    const title = req.query.title;
+    var condition = title ? { title: { [Op.like]: `%${title}%` } } : null;
   
     Position.findAll({ where: condition })
       .then(data => {
@@ -65,7 +65,7 @@ exports.create = (req, res) => {
   
   // Update a Position by the id in the request
   exports.update = (req, res) => {
-    const id = req.body.idPosition;
+    const id = req.body.id;
     Position.update(req.body, {
       where: { id: id }
     })

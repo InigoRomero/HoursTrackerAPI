@@ -42,7 +42,6 @@ exports.create = (req, res) => {
       exclude: ['deletedAT', 'PositionId']
     }, where : condition})
       .then(data => {
-        console.log("Hola test");
         res.send(data);
       })
       .catch(err => {
@@ -56,7 +55,13 @@ exports.create = (req, res) => {
   // Find a single User with an id
   exports.findOne = (req, res) => {
     const id = req.params.id;
-  
+    if (!id)
+    {
+      res.status(400).send({
+        message: "id can not be empty!"
+      });
+      return;
+    }
     User.scope('includeMain').findByPk(id, {attributes: {
       exclude: ['PositionId', 'positionId', 'deletedAT']
     }})
@@ -72,7 +77,15 @@ exports.create = (req, res) => {
   
   // Update a User by the id in the request
   exports.update = (req, res) => {
-    const id = req.body.idUser;
+    const id = req.body.id;
+    if (!id)
+    {
+      res.status(400).send({
+        message: "need the id -_-!"
+      });
+      return;
+    }
+    console.log(req.body);
     User.update(req.body, {
       where: { id: id }
     })
@@ -88,6 +101,7 @@ exports.create = (req, res) => {
         }
       })
       .catch(err => {
+        console.log(err);
         res.status(500).send({
           message: "Error updating User with id=" + id
         });
