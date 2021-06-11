@@ -21,13 +21,7 @@ var corsOptions = {
 const db = require("./models");
 db.sequelize.sync();
 
-require("./routes/users.routes.js")(app);
-require("./routes/positions.routes.js")(app);
-require("./routes/clients.routes.js")(app);
-require("./routes/projects.routes.js")(app);
-require("./routes/tasks.routes.js")(app);
-require("./routes/hours.routes.js")(app);
-
+require("./routes/index")(app);
 
 // set port, listen for requests
 const PORT = process.env.PORT || 3000;

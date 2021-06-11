@@ -4,7 +4,7 @@
 	"description": "",
 	"main": "index.js",
 	"scripts": {
-		"start": "nodemon index.js",
+		"start": "node index.js",
 		"test": "jest  --config ./jest.config.js"
 	},
 	"keywords": [
@@ -32,7 +32,7 @@
 	"jest": {
 		"testEnvironment": "node",
 		"coveragePathIgnorePatterns": [
-		  "/node_modules/"
+			"/node_modules/"
 		]
-	  }
+	}
 }

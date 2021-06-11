@@ -5,7 +5,7 @@ const Op = db.Sequelize.Op;
 // Create and Save a new Project
 exports.create = (req, res) => {
     // Validate request
-    if (!req.body.name || !req.body.description || !req.body.clientID || !req.body.budget) {
+    if (!req.body.name || !req.body.description || !req.body.clientId || !req.body.budget) {
       res.status(400).send({
         message: "Content can not be empty!"
       });
@@ -17,7 +17,7 @@ exports.create = (req, res) => {
         name: req.body.name,
         description: req.body.description,
         budget: req.body.budget,
-        clientId: req.body.clientID
+        clientId: req.body.clientId
     };
   
     // Save Project in the database

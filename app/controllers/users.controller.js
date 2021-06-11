@@ -85,7 +85,6 @@ exports.create = (req, res) => {
       });
       return;
     }
-    console.log(req.body);
     User.update(req.body, {
       where: { id: id }
     })
