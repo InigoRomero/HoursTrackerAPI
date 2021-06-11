@@ -1,6 +1,5 @@
 module.exports = app => {
     const users = require("../controllers/users.controller.js");
-    const middlewares = require("../middlewares/hours.middlewares.js");
     var router = require("express").Router();
   
     // Create a new Tutorial
